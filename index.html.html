@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harmanpreet Kaur - Official Book Creator Portfolio & Store</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4A154B;
+            --secondary: #E0A96D;
+            --accent: #F4F1EA;
+            --text-dark: #2C2C2C;
+            --white: #FFFFFF;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background-color: var(--accent);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+        header {
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--primary);
+            font-weight: 700;
+            text-decoration: none;
+        }
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .hero {
+            background: linear-gradient(rgba(74, 21, 75, 0.85), rgba(74, 21, 75, 0.85)), url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+            color: var(--white);
+            text-align: center;
+            padding: 100px 20px;
+        }
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            font-weight: 300;
+        }
+        .btn {
+            background: var(--secondary);
+            color: var(--white);
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .section {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+        .section-title {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        .section-subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+        }
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        .book-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+        }
+        .book-img-container {
+            height: 280px;
+            background: #f0f0f0;
+            overflow: hidden;
+        }
+        .book-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .book-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .book-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+        .book-desc {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 10px;
+            flex-grow: 1;
+        }
+        .amazon-tag {
+            font-size: 0.8rem;
+            color: #d35400;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        .book-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+        .book-price {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        .buy-btn {
+            background: var(--primary);
+            color: var(--white);
+            padding: 8px 18px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+        .buy-btn:hover {
+            background: #330e34;
+        }
+        /* Modal Popup for QR Code */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            max-width: 380px;
+            width: 90%;
+            position: relative;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #888;
+        }
+        .modal-content img {
+            width: 220px;
+            height: 220px;
+            margin: 10px auto;
+            display: block;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+        }
+        .about-section {
+            background: var(--white);
+            padding: 60px 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 60px;
+        }
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .about-content h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 2.2rem;
+        }
+        .about-content p {
+            color: #555;
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+        }
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        footer {
+            background: var(--primary);
+            color: var(--white);
+            text-align: center;
+            padding: 25px;
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo">Harmanpreet Kaur</a>
+            <ul class="nav-links">
+                <li><a href="#books">Book Collection</a></li>
+                <li><a href="#about">About Author</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Harmanpreet Kaur</h1>
+        <p>Explore wonderful coloring books, daily affirmations, festive stories, and engaging learning treasures designed for kids and adults. Also available on Amazon!</p>
+        <a href="#books" class="btn">Explore Books Collection</a>
+    </section>
+
+    <main class="section" id="books">
+        <h2 class="section-title">My Book Collection</h2>
+        <p class="section-subtitle">Click "Buy via QR" under any book to scan and pay via UPI. Email your screenshot to adarshhmnkaur@gmail.com for instant PDF delivery and Thank You!</p>
+
+        <div class="books-grid">
+            <!-- 1. My Coloring Book -->
+            <div class="book-card">
+                <div class="book-img-container"><img src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/animal-coloring-book-for-kids-design-template-e93758a8b91dc47bb0dc45f6fe763b67_screen.jpg?ts=1637043800" alt="My Coloring Book"></div>
+                <div class="book-content">
+                    <h3 class="book-title">My https://images.unsplash.com/photo-15133Coloring Book</h3>
+                    <p class="book-desc">Fun, learn & create cute pictures with bold outlines for ages 3-8.</p>
+                    <div class="amazon-tag"><i class="fa-brands fa-amazon"></i> Also available on Amazon</div>
+                    <div class="book-footer">
+                        <span class="book-price">₹20</span>
+                        <button class="buy-btn" onclick="openQRModal('My Coloring Book', 20)">Buy via QR</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Punjabi Gurmukhi Coloring Book -->
+            <div class="book-card">
+                <div class="book-img-container"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9iiMzN1KKegD3XK-OphnNTKyWUGZe84oVnuJchQGq8w&s=10" alt="Punjabi Gurmukhi Coloring Book"></div>
+                <div class="book-content">
+                    <h3 class="book-title">Punjabi Gurmukhi Coloring Book</h3>
+                    <p class="book-desc">Learn, color & grow with interactive Gurmukhi script activities.</p>
+                    <div class="amazon-tag"><i class="fa-brands fa-amazon"></i> Also available on Amazon</div>
+                    <div class="book-footer">
+                        <span class="book-price">₹25</span>
+                        <button class="buy-btn" onclick="openQRModal('Punjabi Gurmukhi Coloring Book', 25)">Buy via QR</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. The Cosmic Mandala Journey -->
+            <div class="book-card">
+                <div class="book-img-container"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5xomoHFy0oxLJWRrj0vsXCHpH89whHEiGsbKgcpyu9Q&s=10" alt="The Cosmic Mandala Journey"></div>
+                <div class="book-content">
+                    <h3 class="book-title">The Cosmic Mandala Journey</h3>
+                    <p class="book-desc">A coloring adventure of stars and petals designed for ages 8 to 14.</p>
+                    <div class="amazon-tag"><i class="fa-brands fa-amazon"></i> Also available on Amazon</div>
+                    <div class="book-footer">
+                        <span class="book-price">₹30</span>
+                        <button class="buy-btn" onclick="openQRModal('The Cosmic Mandala Journey', 30)">Buy via QR</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Daily Affirmations -->
+            <div class="book-card">
+                <div class="book-img-container"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPuRfAr5AGso6gsE5JtYVmTW1jH3As-ZcyZ8ZYiFDgIw&s=10" alt="Daily Affirmations"></div>
+                <div class="book-content">
+                    <h3 class="book-title">Daily Affirmations</h3>
+                    <p class="book-desc">For a positive mind and a happy life filled with confidence and peace.</p>
+                    <div class="amazon-tag"><i class="fa-brands fa-amazon"></i> Also available on Amazon</div>
+                    <div class="book-footer">
+                        <span class="book-price">₹20</span>
+                        <button class="buy-btn" onclick="openQRModal('Daily Affirmations', 20)">Buy via QR</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Animal Color-By-Number -->
+            <div class="book-card">
+                <div class="book-img-container"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzMelEWZQrQYMGaTB5rGPRD-H9mvq00QUAlNfQ_XuSjA&s=10" alt="Animal Color-By-Number"></div>
+                <div class="book-content">
+                    <h3 class="book-title">Animal Color-By-Number</h3>
+                    <p class="book-desc">Fun & easy coloring for kids to build color recognition and creativity (Ages 3-8).</p>
+                    <div class="amazon-tag"><i class="fa-brands fa-amazon"></i> Also available on Amazon</div>
+                    <div class="book-footer">
+                        <span class="book-price">₹25</span>
+                        <button class="buy-btn" onclick="openQRModal('Animal Color-By-Number', 25)">Buy via QR</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. Cozy Plant Coloring Book -->
+            <div class="book-card">
+                <div class="book-img-container"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVYs1N3hGUZXwDX9RBMUJaNpCDRW2-jfrWRytO3kj_Bw&s=10" alt="Cozy Plant Coloring Book"></div>
+                <div class="book-content">
+                    <h3 class="book-title">Cozy Plant Coloring Book</h3>
+                    <p class="book-desc">Cute plants, big smiles, happy coloring for kids ages 3 to 6.</p>
+                    <div class="amazon-tag"><i class="fa-brands fa-amazon"></i> Also available on Amazon</div>
+                    <div class="book-footer">
+                        <span class="book-price">₹30</span>
+                        <button class="buy-btn" onclick="openQRModal('Cozy Plant Coloring Book', 30)">Buy via QR</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. Indian Festivals -->
+            <div class="book-card"><div class="book-img-container"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGTel4ncA4IO_ElbB3APbNxzsPC52vr9GUomVEqKMtrQ&s=10" alt="Indian Festivals"></div>
+                <div class="book-content">
+                    <h3 class="book-title">Indian Festivals</h3>
+                    <p class="book-desc">A celebration of culture for kids (Ages 3-8) filled with traditions and art.</p>
+                    <div class="amazon-tag"><i class="fa-brands fa-amazon"></i> Also available on Amazon</div>
+                    <div class="book-footer">
+                        <span class="book-price">₹35</span>
+                        <button class="buy-btn" onclick="openQRModal('Indian Festivals', 35)">Buy via QR</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8. The Adventures of Luna The Book Fairy -->
+            <div class="book-card">
+                <div class="book-img-container"><img src="https://m.media-amazon.com/images/I/81m5Swu5O5L._UF350,350_QL50_.jpg" alt="The Adventures of Luna The Book Fairy"></div>
+                <div class="book-content">
+                    <h3 class="book-title">The Adventures of Luna The Book Fairy</h3>
+                    <p class="book-desc">A magical tale for ages 5-8 filled with fantasy, friendship, and wonder.</p>
+                    <div class="amazon-tag"><i class="fa-brands fa-amazon"></i> Also available on Amazon</div>
+                    <div class="book-footer">
+                        <span class="book-price">₹40</span>
+                        <button class="buy-btn" onclick="openQRModal('The Adventures of Luna The Book Fairy', 40)">Buy via QR</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 9. English Alphabet Tracing Book -->
+            <div class="book-card"><div class="book-img-container"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWMCrn3iMHmhMh-cwzhf7m3C_eCBbRT8AAT8vZeZJfjw&s=10" alt="English Alphabet Tracing Book"></div>
+                <div class="book-content">
+                    <h3 class="book-title">English Alphabet Tracing Book</h3>
+                    <p class="book-desc">Trace, learn & have fun with interactive alphabet practice for ages 3-5.</p>
+                    <div class="amazon-tag"><i class="fa-brands fa-amazon"></i> Also available on Amazon</div>
+                    <div class="book-footer">
+                        <span class="book-price">₹30</span>
+                        <button class="buy-btn" onclick="openQRModal('English Alphabet Tracing Book', 30)">Buy via QR</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 10. Animal & Transport Puzzle & Quiz -->
+            <div class="book-card"><div class="book-img-container"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGONbOSiEDnG7_AeTfZU65uVuydZ9GRuo8juocBcgqKw&s=10" alt="Animal & Transport Puzzle & Quiz"></div>
+                <div class="book-content">
+                    <h3 class="book-title">Animal & Transport Puzzle & Quiz</h3>
+                    <p class="book-desc">60 fun pages of Sudoku, mazes, spot the difference & quizzes for ages 5-8.</p>
+                    <div class="amazon-tag"><i class="fa-brands fa-amazon"></i> Also available on Amazon</div>
+                    <div class="book-footer">
+                        <span class="book-price">₹35</span>
+                        <button class="buy-btn" onclick="openQRModal('Animal & Transport Puzzle & Quiz', 35)">Buy via QR</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 11. Math Adventure -->
+            <div class="book-card">
+                <div class="book-img-container"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcZwkgTD68niqy90eJ41Vn2Qy9kzcLTKV-8Rxrjxzdiw&s" alt="Math Adventure"></div>
+                <div class="book-content">
+                    <h3 class="book-title">Math Adventurclass="book-img-container></div>
+                <div e</h3>
+                    <p class="book-desc">Building confidence one number at a time with exciting activities for ages 5-8.</p>
+                    <div class="amazon-tag"><i class="fa-brands fa-amazon"></i> Also available on Amazon</div>
+                    <div class="book-footer">
+                        <span class="book-price">₹35</span>
+                        <button class="buy-btn" onclick="openQRModal('Math Adventure', 35)">Buy via QR</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 12. The Little Seed Who Wanted to Bloom Today -->
+            <div class="book-card">
+                <div class="book-img-container"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNye38eoRWw2xnQ5T0NL2s5Wbib77zbDbpwqgDOcyPVQ&s=10" alt="The Little Seed Who Wanted to Bloom Today"></div>
+                
+                <div class="book-content">
+                    <h3 class="book-title">The Little Seed Who Wanted to Bloom Today</h3>
+                    <p class="book-desc">A heartwarming garden story about patience, dreams, and blooming with joy.</p>
+                    <div class="amazon-tag"><i class="fa-brands fa-amazon"></i> Also available on Amazon</div>
+                    <div class="book-footer">
+                        <span class="book-price">₹40</span>
+                        <button class="buy-btn" onclick="openQRModal('The Little Seed Who Wanted to Bloom Today', 40)">Buy via QR</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 13. How To Earn Online -->
+            <div class="book-card">
+                <div class="book-img-container"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoAK_G2qFodrXtbD6nkuNLfG93s6DLxNq0J5t7GoX_XQ&s=10" alt="How To Earn Online"></div>
+                <div class="book-content">
+                    <h3 class="book-title">How To Earn Online</h3>
+                    <p class="book-desc">Mastering the path to financial freedom, wealth creation & passive income.</p>
+                    <div class="amazon-tag"><i class="fa-brands fa-amazon"></i> Also available on Amazon</div>
+                    <div class="book-footer">
+                        <span class="book-price">₹49</span>
+                        <button class="buy-btn" onclick="openQRModal('How To Earn Online', 49)">Buy via QR</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 14. Magical Story & Activity Fun Book -->
+            <div class="book-card">
+                <div class="book-img-container"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTu3bBo1pMq8XjhmXXNCyY8BrTSw9fqYpYmYgFF2UOSDA&s=10" alt="Magical Story & Activity Fun Book"></div>
+                <div class="book-content">
+                    <h3 class="book-title">Magical Story & Activity Fun Book</h3>
+                    <p class="book-desc">An engaging collection of wonderful bedtime stories, fun riddles, and creativity prompts for kids.</p>
+                    <div class="amazon-tag"><i class="fa-brands fa-amazon"></i> Also available on Amazon</div>
+                    <div class="book-footer">
+                        <span class="book-price">₹35</span>
+                        <button class="buy-btn" onclick="openQRModal('Magical Story & Activity Fun Book', 35)">Buy via QR</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- QR Code Modal Popup with Generated UPI QR Code for 9711077649@ptyes -->
+    <div id="qrModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeQRModal()">&times;</span>
+            <h3 id="modalBookTitle" style="color: var(--primary); font-size: 1.2rem;">Book Title</h3>
+            <p id="modalBookPrice" style="font-weight: 600; font-size: 1.05rem; color: #555; margin: 3px 0;">Price: ₹0</p>
+            <p style="font-size: 0.8rem; color: #666;">Scan QR using Paytm, Google Pay, or PhonePe:</p>
+            <!-- Auto-generated direct UPI QR code linked to Harmanpreet Kaur's UPI -->
+            <img id="upiQRCode" src="" alt="Harmanpreet Kaur QR Code">
+            <p style="font-size: 0.75rem; color: #444; margin-top: 8px;">🎉 <strong>Thank You for Purchasing!</strong><br>After payment, email your screenshot to <br><strong style="color: var(--primary);">adarshhmnkaur@gmail.com</strong><br> to receive your book PDF instantly!</p>
+        </div>
+    </div>
+
+    <!-- About Author Section -->
+    <section class="section" id="about">
+        <div class="about-section">
+            <div class="about-content">
+                <h2>About the Author: Harmanpreet Kaur</h2>
+                <p>Welcome! I am <strong>Harmanpreet Kaur</strong>, a passionate creator and publisher dedicated to producing educational, artistic, and engaging books for learners of all ages. Based in <strong>Delhi NCR</strong>, my mission is to foster creativity, cultural connection, and joyful learning.</p>
+                
+                <div class="contact-info" id="contact">
+                    <div class="contact-item"><i class="fa-solid fa-location-dot"></i> Delhi NCR, India</div>
+                    <div class="contact-item"><i class="fa-solid fa-phone"></i> +91 97110 77649</div>
+                    <div class="contact-item"><i class="fa-solid fa-envelope"></i> adarshhmnkaur@gmail.com</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Harmanpreet Kaur (Books Creator) | All rights reserved.</p>
+    </footer>
+
+    <script>
+        function openQRModal(title, price) {
+            document.getElementById('modalBookTitle').innerText = title;
+            document.getElementById('modalBookPrice').innerText = "Price: ₹" + price;
+            
+            // Automatically generate the exact UPI payment QR code for Harmanpreet Kaur (9711077649@ptyes)
+            var upiString = "upi://pay?pa=9711077649@ptyes&pn=Harmanpreet%20Kaur&am=" + price + "&cu=INR";
+            document.getElementById('upiQRCode').src = "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" + encodeURIComponent(upiString);
+            
+            document.getElementById('qrModal').style.display = 'flex';
+        }
+        function closeQRModal() {
+            document.getElementById('qrModal').style.display = 'none';
+        }
+        window.onclick = function(event) {
+            var modal = document.getElementById('qrModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
